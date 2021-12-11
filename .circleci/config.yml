@@ -6,8 +6,8 @@ workflows:
     jobs:
       - docker/publish:
           image: alphabet5/guacamole
-          update-description: true
-          tag: latest
+#          update-description: true
+#          tag: latest
   weekly:
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
