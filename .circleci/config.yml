@@ -5,7 +5,7 @@ workflows:
   build-docker-image-only:
     jobs:
       - docker/publish:
-          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+          image: alphabet5/guacamole
           update-description: true
           tag: latest
   weekly:
