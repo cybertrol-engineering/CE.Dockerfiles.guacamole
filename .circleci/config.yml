@@ -1,16 +1,17 @@
+version: '2.1'
 orbs:
-  docker: circleci/docker@1.5.0
-version: 2.1
+  docker: circleci/docker@2.0.1
 workflows:
-  build-and-publish-docker-image:
+  build-docker-image-only:
     jobs:
       - docker/publish:
-          image: alphabet5/guacamole
+          image: $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+          update-description: true
           tag: latest
-  nightly:
+  weekly:
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
-          cron: "0 0 * * *" # use cron syntax to set the schedule
+          cron: "0 0 * * 0" # use cron syntax to set the schedule
           filters:
             branches:
               only:
