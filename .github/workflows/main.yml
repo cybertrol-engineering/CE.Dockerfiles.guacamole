@@ -1,0 +1,43 @@
+name: Docker Build and Publish
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Get Version number
+        run: |
+          ver=$(cat VERSION)
+          [[ $(cat VERSION) =~ ^([0-9]+)\.([0-9])+\.([0-9]+) ]]
+          major=${BASH_REMATCH[1]}
+          minor=${BASH_REMATCH[1]}.${BASH_REMATCH[2]}
+          echo "::set-output name=version::$ver"
+          echo "::set-output name=major::$major"
+          echo "::set-output name=minor::$minor"
+        id: tags
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            cybertrolserviceaccount/guacamole:latest,
+            cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.version }},
+            cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.major }},
+            cybertrolserviceaccount:${{ steps.tags.outputs.minor }}
