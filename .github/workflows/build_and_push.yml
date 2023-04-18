@@ -38,6 +38,6 @@ jobs:
           push: true
           tags: |
             cybertrolserviceaccount/guacamole:latest,
-            cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.version }},
-            cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.major }},
-            cybertrolserviceaccount:${{ steps.tags.outputs.minor }}
+            # cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.version }},
+            # cybertrolserviceaccount/guacamole:${{ steps.tags.outputs.major }},
+            # cybertrolserviceaccount:${{ steps.tags.outputs.minor }}
